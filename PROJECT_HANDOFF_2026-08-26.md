@@ -4,8 +4,10 @@
 **用途：** 让振鹏在不依赖此前聊天记录的情况下，从上次组内交流开始，完整理解项目缘起、研究问题如何演化、当前仓库状态、文献边界、尚未解决的问题，以及接下来应该按什么顺序推进。  
 **当前 canonical 工作仓库：** `alex051107/ProfiliTable`  
 **当前 canonical 研究分支：** `research/benchmark-first-plan-v0.2`  
-**当前分支 head：** `9c37cf6dc13fb1931ec328cee3266423c4352cce`  
+**该快照对应分支 head：** `309b12a`
 **上游固定基线：** `Eularioal/ProfiliTable@f023ec4b754555000a659b93fd514645c55e3cec`
+
+> **Phase 1 completion update:** This document preserves the project history and the pre-Phase-1 handoff state. Phase 1 has since selected **A — Table-Agent Capability Benchmark** as the primary formulation and **C — Method-First State-Grounded Evaluator** as the fallback. Sections that say the formulation is unselected or that the four Phase 1 deliverables remain to be written are historical snapshots. For the current reviewed status, canonical reading order, resolved review findings, and next authorised gate, read [`research/PHASE1_HANDOFF_REVIEW.md`](research/PHASE1_HANDOFF_REVIEW.md) first, then [`research/RESEARCH_DECISION_MEMO.md`](research/RESEARCH_DECISION_MEMO.md). The evidence-based decision path is recorded in [`research/PHASE1_DECISION_RATIONALE.md`](research/PHASE1_DECISION_RATIONALE.md).
 
 ---
 
@@ -13,9 +15,9 @@
 
 目前还没有正式开始构建新的 benchmark，也没有开始跑模型实验，更没有确认 novelty。
 
-当前项目正处于：
+Phase 1 的研究问题选择与 novelty 审计已经完成。当前项目处于：
 
-> **研究问题选择与 novelty 审计阶段。**
+> **进入实现前的 bounded Phase 2 ProfiliTable task / evaluator / provenance audit。**
 
 我们最初想研究的是：
 
@@ -37,11 +39,13 @@
 - “第一个 semantic verifier”；
 - “第一个 evidence-grounded data-workflow diagnosis”。
 
-现在真正需要确认的是：
+Phase 1 的 primary 方向是 Table-Agent Capability Benchmark。当前需要先确认公开 ProfiliTable tasks、evaluator coverage、provenance/license 与 checkpoint feasibility 是否足以承载这个问题。
 
-> **在 Table Agent 场景下，真实 intermediate table state 是否能为任务执行、自我识错或错误定位提供现有 final-output scorer 和 dialogue/code trajectory diagnosis 没有的增量信息？**
+State-grounded evaluator 被保留为 fallback，核心问题仍是：
 
-但注意：这只是一个候选方向，不是已经选定的最终方向。当前分支要求 Codex 同时比较四种研究形状，避免继续陷入“因为已经写了 state checker 设计，所以只优化 state checker”的局部最小。
+> **在 reference-output-withheld 条件下，真实 intermediate table state 是否为错误定位或修复提供 final-output scorer 和 dialogue/code trajectory diagnosis 没有的增量信息？**
+
+这仍是待实验推翻的候选方法方向，不是已成立 contribution。
 
 ---
 
@@ -208,6 +212,8 @@ task-specific eval.py
 
 ## 4.4 当前修正：四种 formulation 并行比较
 
+> **Phase 1 update:** The comparison below has been completed. A is now the primary formulation and C is the fallback; see `research/RESEARCH_DECISION_MEMO.md`. The descriptions remain useful as the alternatives that were evaluated.
+
 当前不再默认 state-grounded diagnosis 就是最终答案，而是要求比较四种项目形状：
 
 ### A. Table-Agent Capability Benchmark
@@ -231,7 +237,7 @@ task-specific eval.py
 被评对象：ProfiliTable / DataFlow-Table runtime。  
 核心比较：process-aware checking 是否提高真实 task success、减少错误提交与无效 debugging。
 
-当前没有最终选定 A/B/C/D 中的哪一个。
+Phase 1 已选定 A 为 primary、C 为 fallback；B 保留为诊断与 direct-transfer baseline 层，D 延后。
 
 ---
 
@@ -375,8 +381,7 @@ alex051107/ProfiliTable
 ### `research/benchmark-first-plan-v0.2`
 
 用途：研究计划、novelty audit、upstream audit protocol、Codex execution protocol。  
-当前 head：`9c37cf6dc13fb1931ec328cee3266423c4352cce`。  
-相对 `master`：ahead 6、behind 0。  
+本节原始快照 head 为 `9c37cf6dc13fb1931ec328cee3266423c4352cce`；远端交接提交 `309b12a` 已在本轮开始前 fast-forward 整合。最终上传后的 head 应以 `git rev-parse HEAD` 和 GitHub branch readback 为准。
 没有修改 ProfiliTable runtime。
 
 新增文件：
@@ -398,6 +403,15 @@ alex051107/ProfiliTable
 
 6. `.gitignore` 强化  
    忽略 venv、cache、logs、data、artifacts、runs、research-derived 等。
+
+Phase 1 completion package 另增加：
+
+7. `research/NOVELTY_MATRIX.tsv`；
+8. `research/ALTERNATIVE_FORMULATIONS.md`；
+9. `research/DIRECT_TRANSFER_BASELINE_PLAN.md`；
+10. `research/RESEARCH_DECISION_MEMO.md`；
+11. `research/PHASE1_DECISION_RATIONALE.md`；
+12. `research/PHASE1_HANDOFF_REVIEW.md`。
 
 ## 6.2 Legacy / 侧向仓库
 
@@ -450,7 +464,7 @@ alex051107/table-intent-trace
 - 尚未运行任何 LLM baseline；
 - 尚未运行 AgentRx / FALAT / DRIFT direct-transfer baseline；
 - 尚未收集自然 Agent failures；
-- 尚未确定 A/B/C/D 主方向；
+- 已选 A 为 primary、C 为 fallback，但尚未用实验验证该选择；
 - 尚未证明 novelty；
 - 尚未决定数据公开许可；
 - 尚未创建 PR；
@@ -464,6 +478,8 @@ alex051107/table-intent-trace
 # 8. 现在的正确执行顺序
 
 当前不要立即生成 benchmark，也不要修改 ProfiliTable runtime。
+
+> **Current execution update:** Phase 0 and Phase 1 are complete. The next step is the bounded public-source/local-summary Phase 2 audit. Mentor/PM alignment still gates internal assets, ownership, redistribution, mutation generation, pilot implementation, and model experiments.
 
 ## Phase 0 — Context Reconstruction
 
@@ -487,6 +503,8 @@ Codex 先读取：
 - 当前 kill tests。
 
 ## Phase 1 — Novelty / Alternative Formulation Audit
+
+**Status: complete.** The four file descriptions below are retained as the finished deliverable contract.
 
 Codex 只创建以下四个文件：
 
@@ -889,44 +907,41 @@ new benchmark
 
 # 15. 接下来 7 天的推荐计划
 
-当前建议先完成 research decision，而不是立刻实现 benchmark。
+Phase 1 research decision 已完成。接下来 7 天应完成公开固定版本的 Phase 2 audit，不立即实现 benchmark。
 
 ## Day 1
 
-- 读完本交接文档和 5 份 canonical research docs；
-- 让 Codex 输出 context reconstruction；
-- 人工检查是否准确恢复 original objective 与四条 formulation。
+- 固定公开 ProfiliTable task package 来源、commit、retrieval date 与本地 artifact identity；
+- 建立 source/license/redistribution decision ledger；
+- 不提交解压后的 raw data。
 
 ## Day 2–3
 
-- 完成 `NOVELTY_MATRIX.tsv`；
-- 重点核查 CITBench、DataSpace、AgentRx、FALAT、DRIFT、DataTrace；
-- 每项给 direct-transfer feasibility。
+- 枚举公开 task metadata、raw input、expected output 和 `eval.py`；
+- 生成可重算 inventory 与 package manifest；
+- 区分 paper claim、code observation 与本地 audit observation。
 
 ## Day 4
 
-- 完成 `ALTERNATIVE_FORMULATIONS.md`；
-- 每条路线写 strongest overlap、kill test、六周计划和 fallback。
+- 生成 clause-to-`eval.py` coverage draft，并指向准确代码位置；
+- 标记 independent oracle 和 checkpoint 是否可行；
+- 不把 `eval.py` 存在等同于语义覆盖完整。
 
 ## Day 5
 
-- 完成 `DIRECT_TRANSFER_BASELINE_PLAN.md`；
-- 把现有方法如何迁移写到输入/输出/schema/公开资产级别。
+- 按 filter/revision、aggregation grain、dedup/latest record、preservation/side effect 寻找候选真实任务；
+- 只推荐 provenance、oracle 和 checkpoint 边界均可解释的任务。
 
 ## Day 6
 
-- 写 `RESEARCH_DECISION_MEMO.md`；
-- 选择一个 primary 和一个 fallback。
+- 人工复核 task requirement interpretation、evaluator coverage、step boundary 与许可；
+- 对不足项使用 `DATA_INSUFFICIENT`，不强行凑满四个任务。
 
 ## Day 7
 
-- 与组内 PhD / 博后对齐：
-  - internal assets；
-  - current bottleneck；
-  - ownership；
-  - 4–6 周交付。
-
-只有该次对齐后，才进入 upstream audit 或 pilot implementation。
+- 与组内 PhD / 博后对齐 internal assets、current bottleneck、ownership、redistribution 与 4–6 周交付；
+- 公开固定版本的只读 audit 不依赖内部 access；
+- internal data、mutants、pilot implementation 与 model experiments 仍需该次对齐及人工批准。
 
 ---
 
@@ -936,7 +951,7 @@ new benchmark
 
 ## Week 1
 
-Research formulation + novelty decision。
+Research formulation + novelty decision。**已完成。**
 
 ## Week 2
 
@@ -1035,7 +1050,7 @@ GO / PIVOT / STOP：
 
 # 18. 当前一句话状态
 
-> **我们已经完成研究问题的第一轮拆解和文献重叠审计，建立了 ProfiliTable fork 的干净研究分支与 Codex 探索协议，但尚未选定最终 formulation、尚未开始真实 benchmark audit，也没有任何模型结果或已成立 novelty。下一步必须先完成四路线比较和 direct-transfer baseline plan，再决定是否进入 ProfiliTable upstream audit 与 empirical pilot。**
+> **Phase 1 已完成并选定 A（Table-Agent Capability Benchmark）为 primary、C（State-Grounded Evaluator information-gain test）为 fallback；没有 runtime、mutant、模型结果或已成立 novelty。下一步是公开固定版本的 bounded Phase 2 task/evaluator/provenance audit，内部资产、再分发、pilot 与实验仍需组内确认。**
 
 ---
 
@@ -1049,11 +1064,12 @@ GO / PIVOT / STOP：
 - [ ] 为什么不能单独 claim first error；
 - [ ] intermediate table state 的三种角色；
 - [ ] A/B/C/D 四条路线分别评谁；
-- [ ] 当前 canonical repo、branch、commit；
+- [ ] 当前 canonical repo、branch，以及为何 commit 必须通过 live Git/GitHub readback 确认；
 - [ ] `table-intent-trace` 为什么冻结；
 - [ ] 当前完成与未完成事项；
-- [ ] 下一步四个 Codex deliverables；
-- [ ] 什么时候才做 ProfiliTable task audit；
+- [ ] Phase 1 四个核心 deliverables 的结论与审查状态；
+- [ ] 为什么下一步是 bounded Phase 2 ProfiliTable task/evaluator/provenance audit；
+- [ ] 哪些 Phase 2 公开审计现在可做，哪些内部资产/pilot/实验仍需组内批准；
 - [ ] 哪些事实仍是 DATA_INSUFFICIENT；
 - [ ] GO / PIVOT / STOP 的 kill tests；
 - [ ] 哪些文件可以进 Git、哪些不能；

@@ -1,6 +1,6 @@
 # Codex Research Start Here — ProfiliTable / DataFlow-Table
 
-**Status:** exploration charter; not an implementation specification  
+**Status:** Phase 1 research decision complete; Phase 2 audit not started
 **Date:** 2026-08-26  
 **Working branch:** `research/benchmark-first-plan-v0.2`  
 **Upstream baseline:** `Eularioal/ProfiliTable@f023ec4b754555000a659b93fd514645c55e3cec`
@@ -14,6 +14,27 @@ The research discussion has repeatedly narrowed because adjacent work already co
 This file gives Codex the complete decision context and requires broad exploration before further implementation.
 
 **Do not assume the current state-grounded diagnosis idea is correct.** Treat it as one candidate among several.
+
+## 0.1 Phase 1 completion update
+
+Phase 1 is complete. The current decision is:
+
+- **Primary:** A — Table-Agent Capability Benchmark;
+- **Fallback:** C — Method-First State-Grounded Evaluator;
+- **Not selected as primary:** B — Process-Diagnostic Benchmark;
+- **Deferred:** D — Harness / Self-Monitoring Integration.
+
+This is a research-route decision, not an implementation or novelty claim. The next authorised activity is the bounded Phase 2 ProfiliTable task/evaluator/provenance audit.
+
+Read the current handoff package in this order:
+
+1. `research/PHASE1_HANDOFF_REVIEW.md` — current status, review record, known risks, and next gate;
+2. `research/RESEARCH_DECISION_MEMO.md` — primary/fallback decision and GO/PIVOT/STOP rules;
+3. `research/PHASE1_DECISION_RATIONALE.md` — evidence-based decision path and alternatives;
+4. `research/ALTERNATIVE_FORMULATIONS.md` — full A–D comparison;
+5. `research/DIRECT_TRANSFER_BASELINE_PLAN.md` — reference-hidden baseline protocol;
+6. `research/NOVELTY_MATRIX.tsv` — source-by-source claim boundary;
+7. `PROJECT_HANDOFF_2026-08-26.md` — project history and pre-Phase-1 context.
 
 ---
 
@@ -45,10 +66,17 @@ The branch `research/benchmark-first-plan-v0.2` currently adds research planning
 
 Existing documents:
 
+- `PROJECT_HANDOFF_2026-08-26.md`
 - `TP2_BENCHMARK_FIRST_MASTER_PLAN.md`
 - `research/PAPER_GAP_AUDIT.md`
 - `research/PROFILITABLE_UPSTREAM_AND_BENCHMARK_AUDIT.md`
 - `research/CODEX_EXECUTION_AND_REPO_HYGIENE.md`
+- `research/NOVELTY_MATRIX.tsv`
+- `research/ALTERNATIVE_FORMULATIONS.md`
+- `research/DIRECT_TRANSFER_BASELINE_PLAN.md`
+- `research/RESEARCH_DECISION_MEMO.md`
+- `research/PHASE1_DECISION_RATIONALE.md`
+- `research/PHASE1_HANDOFF_REVIEW.md`
 - an expanded `.gitignore`
 
 These documents currently establish:
@@ -499,14 +527,14 @@ If the new labels only produce a more detailed narrative but do not change a dec
 
 Do **not** expand the state checker or create more mutants yet.
 
-The immediate task is:
+Phase 1 has selected A as primary and C as fallback. The immediate task is the bounded Phase 2 public-source/local-summary audit:
 
-1. finish the novelty matrix and alternative-formulation analysis;
-2. determine whether the primary benchmark subject should be:
-   - the table agent's abilities,
-   - an external diagnosis model,
-   - or an integrated self-monitoring harness;
-3. audit ProfiliTable real tasks and evaluator coverage;
-4. design one empirical gate that can falsify the selected direction.
+1. identify the exact fixed ProfiliTable task package and record source, retrieval date, licence/terms, and redistribution questions;
+2. enumerate task metadata, raw input, expected output, and `eval.py` presence without committing raw data;
+3. draft clause-to-evaluator coverage with exact code locations;
+4. test independent semantic-oracle and checkpoint feasibility;
+5. recommend four real tasks only if their provenance, evaluator coverage, and checkpoint boundaries are defensible.
 
-The current state-grounded diagnosis idea survives only if table-state access demonstrates incremental value over strong text/trajectory baselines.
+Public fixed-source reading and local summaries may proceed now. Internal assets, ownership, redistribution, mutation generation, pilot implementation, model runs, and post-evidence GO/PIVOT/STOP decisions remain gated by human/mentor alignment or a separate explicit instruction.
+
+State becomes the method direction only if a later reference-hidden ablation demonstrates replayable, decision-relevant value over strong text/trajectory baselines.
