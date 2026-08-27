@@ -15,6 +15,7 @@ __pycache__/
 
 *.csv
 *.json
+!research/stage0/STAGE0_TASK_CONTRACTS.PROPOSED.json
 *.log
 
 .ipynb_checkpoints/

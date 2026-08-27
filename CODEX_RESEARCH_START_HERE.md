@@ -1,8 +1,8 @@
 # Codex Research Start Here — ProfiliTable / DataFlow-Table
 
-**Status:** Phase 2 mechanical audit complete; Stage-0 pilot gate not passed
+**Status:** Phase 3 Stage-0 design proposal prepared; human gate not passed
 **Date:** 2026-08-27
-**Working branch:** `research/upstream-audit`
+**Working branch:** `research/pilot-task-selection`
 **Upstream baseline:** `Eularioal/ProfiliTable@f023ec4b754555000a659b93fd514645c55e3cec`
 
 ---
@@ -15,7 +15,7 @@ This file gives Codex the complete decision context and requires broad explorati
 
 **Do not assume the current state-grounded diagnosis idea is correct.** Treat it as one candidate among several.
 
-## 0.1 Phase 1 decision and Phase 2 completion update
+## 0.1 Phase 1 decision, Phase 2 audit, and Phase 3 design update
 
 Phase 1 is complete. The current decision is:
 
@@ -24,19 +24,24 @@ Phase 1 is complete. The current decision is:
 - **Not selected as primary:** B — Process-Diagnostic Benchmark;
 - **Deferred:** D — Harness / Self-Monitoring Integration.
 
-The bounded Phase 2 public-package audit is now complete. It reproduced the 127-task inventory, fixed the package SHA-256, generated an exact-line DRAFT evaluator-coverage queue, found material leakage/evaluator defects, and produced four conditional candidates. This is not pilot approval or a novelty claim.
+The bounded Phase 2 public-package audit is complete. It reproduced the 127-task inventory, fixed the package SHA-256, generated an exact-line DRAFT evaluator-coverage queue, found material leakage/evaluator defects, and produced four conditional candidates.
+
+Phase 3 has now prepared a data-free `DESIGN_PROPOSAL` with independent-oracle, checkpoint, control, and approval specifications. Three tasks remain provisional; the union task is on hold because its upstream contract supports output preservation but not input immutability. The approval queue is an unsigned template: its validator requires every decision and provenance field to remain unresolved and cannot authorize GO/PIVOT/STOP. No human approval, benchmark instance, reference workflow, mutation, checkpoint value, evaluator run, model run, or experimental result exists.
 
 Read the current handoff package in this order:
 
-1. `research/PHASE2_HANDOFF_REVIEW.md` — current status, acceptance record, blockers, and next gate;
-2. `research/PHASE2_AUDIT_RATIONALE.md` — evidence-based audit and decision path;
-3. `research/audit_results/base_task_candidates.md` — conditional shortlist, evaluator boundaries, and exclusions;
-4. `research/audit_results/package_manifest.tsv` — fixed package identity and license boundary;
-5. `research/audit_results/upstream_inventory.tsv` — one row per task bundle;
-6. `research/audit_results/oracle_coverage.DRAFT.tsv` — machine-generated human review queue; requirement text is withheld pending data-license review;
-7. `research/PHASE1_HANDOFF_REVIEW.md` — primary/fallback formulation decision;
-8. `research/RESEARCH_DECISION_MEMO.md` — GO/PIVOT/STOP rules;
-9. `PROJECT_HANDOFF_2026-08-26.md` — project history and pre-Phase-1 context.
+1. `research/PHASE3_STAGE0_DESIGN_REVIEW.md` — current verdict, semantic corrections, experimental design, approval gate, and allowed actions;
+2. `research/stage0/STAGE0_TASK_CONTRACTS.PROPOSED.json` — data-free proposed clauses, oracles, steps, checkpoints, ambiguities, and mutation concepts;
+3. `research/stage0/STAGE0_APPROVAL_QUEUE.PROPOSED.tsv` — 18 human decisions required before Stage 0;
+4. `research/PHASE2_HANDOFF_REVIEW.md` — completed mechanical audit, acceptance record, and remaining evidence boundaries;
+5. `research/PHASE2_AUDIT_RATIONALE.md` — evidence-based audit and decision path;
+6. `research/audit_results/base_task_candidates.md` — conditional shortlist, evaluator boundaries, and exclusions;
+7. `research/audit_results/package_manifest.tsv` — fixed package identity and license boundary;
+8. `research/audit_results/upstream_inventory.tsv` — one row per task bundle;
+9. `research/audit_results/oracle_coverage.DRAFT.tsv` — machine-generated queue that remains unreviewed;
+10. `research/PHASE1_HANDOFF_REVIEW.md` — primary/fallback formulation decision;
+11. `research/RESEARCH_DECISION_MEMO.md` — GO/PIVOT/STOP rules;
+12. `PROJECT_HANDOFF_2026-08-26.md` — project history and pre-Phase-1 context.
 
 ---
 
@@ -539,14 +544,16 @@ If the new labels only produce a more detailed narrative but do not change a dec
 
 Do **not** expand the state checker, create mutants, or run models yet.
 
-Phase 2 has completed the reproducible public-package audit and retained four conditional candidates. The immediate task is a human/mentor gate:
+Phase 3 has converted the conditional shortlist into a data-free proposal and an explicit approval queue. The immediate task remains a human/mentor gate:
 
 1. confirm data-use and redistribution permission;
-2. review the four candidates' DRAFT clause-to-evaluator mappings;
-3. approve an independent semantic oracle per task;
-4. approve checkpoint boundaries;
-5. record GO/PIVOT/STOP for Stage 0.
+2. review or correct the four candidates' proposed atomic contracts;
+3. approve or revise the independent property oracles;
+4. approve or revise checkpoint boundaries;
+5. resolve whether the fourth task measures output preservation or must be replaced for input-side-effect semantics;
+6. approve mutation semantics only after the preceding decisions;
+7. record GO/PIVOT/STOP for Stage 0.
 
-The DRAFT coverage table must not be renamed or treated as ground truth before that review. Internal assets, ownership, redistribution, mutation generation, pilot implementation, model runs, and integration changes remain gated.
+The DRAFT coverage table and the `DESIGN_PROPOSAL` must not be renamed or treated as ground truth before that review. A formal decision must be recorded in a separately reviewed successor artifact or protected human-approval workflow; editing the proposed queue is not approval. Internal assets, ownership, redistribution, reference workflow construction, mutation generation, pilot implementation, model runs, and integration changes remain gated.
 
 State becomes the method direction only if a later reference-hidden ablation demonstrates replayable, decision-relevant value over strong text/trajectory baselines.

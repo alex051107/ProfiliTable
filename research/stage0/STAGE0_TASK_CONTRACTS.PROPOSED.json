@@ -1,0 +1,782 @@
+{
+  "schema_version": "0.1",
+  "artifact_class": "DESIGN_PROPOSAL",
+  "status": "CODEX_PROPOSED",
+  "source": {
+    "upstream_commit": "f023ec4b754555000a659b93fd514645c55e3cec",
+    "package_sha256": "a5c46f5c0d71a4886ed7c6cebb737814dff0587038f45bed58a40d9d96fafcb6",
+    "phase2_audit_commit": "ce6086eb43f6242ff622f0370bfd59a09c95c0a2"
+  },
+  "data_rights_status": "DATA_INSUFFICIENT",
+  "stage0_gate": {
+    "status": "NOT_READY",
+    "codex_recommendation": "PIVOT_BEFORE_STAGE0",
+    "blocking_reasons": [
+      "Data-use and redistribution permission has not been documented.",
+      "All requirement interpretations, property oracles, and checkpoint boundaries remain human-unreviewed.",
+      "The filter task is static; a revision sequence would be newly authored benchmark content.",
+      "The union task does not state input immutability and cannot currently ground an input-overwrite side-effect label.",
+      "The union package has unresolved packaged-input versus generator drift."
+    ]
+  },
+  "experiment_design": {
+    "question": "Can intermediate table-state evidence add replayable diagnostic value beyond final-output and dialogue/code evidence on controlled semantic lifecycles?",
+    "experimental_unit": "one approved base-task variant",
+    "blocking_factor": "base task",
+    "comparison_structure": "paired repeated-measures: every approved evaluator view receives every approved instance under its frozen visibility contract",
+    "controls": {
+      "clean": "negative control for false rejection",
+      "persistent": "positive control with one unrepaired semantic violation",
+      "recovered": "lifecycle control sharing the persistent variant's source mutation but repaired before commit",
+      "benign_equivalent": "negative control for implementation-form bias"
+    },
+    "run_order": {
+      "status": "NOT_GENERATED",
+      "planned_method": "counterbalance evaluator-view order within each base-task block and record one seed after approval",
+      "seed": null
+    },
+    "replication_claim": "NONE_STAGE0_CONSTRUCT_VALIDITY",
+    "pseudoreplication_guard": "clauses, checkpoints, and witnesses within one instance are not independent replicates",
+    "blinding": "deployment-like evaluator packages must hide expected outputs, native evaluators, variant labels, mutation ledgers, gold diagnoses, and corrected workflows"
+  },
+  "tasks": [
+    {
+      "task_key": "NL2Op/T0114_filter_muti",
+      "family": "filter_revision",
+      "intended_role": "composite filtering with a later authored revision",
+      "qualification": "PROVISIONAL",
+      "design_status": "CODEX_PROPOSED",
+      "human_requirement_review": "UNREVIEWED",
+      "source_task_path": "data/benchmarks/NL2Op/T0114_filter_muti",
+      "source_locator": "task_meta.json:1",
+      "native_evaluator_evidence": [
+        "eval.py:54-59 exact output column names and order",
+        "eval.py:61-64 truncation to the shorter output/reference length",
+        "eval.py:78-84 row accuracy only on the truncated prefix"
+      ],
+      "known_native_evaluator_gaps": [
+        "Omitted tail rows can escape direct penalty.",
+        "The three predicates are not checked or localized independently.",
+        "The upstream task contains no evolving-intent revision."
+      ],
+      "steps": [
+        {
+          "step_id": "F_S1_RULE_LOOKUPS",
+          "action_summary": "Build the three rule lookups and surface duplicate or missing lookup keys."
+        },
+        {
+          "step_id": "F_S2_ROW_PREDICATES",
+          "action_summary": "Evaluate whitelist, category, and channel-threshold predicates for every master-row occurrence."
+        },
+        {
+          "step_id": "F_S3_COMPOSITE_FILTER",
+          "action_summary": "Retain the stable master-row multiset satisfying all active predicates."
+        },
+        {
+          "step_id": "F_S4_SCHEMA_COMMIT",
+          "action_summary": "Project the retained rows to the original master schema and column order."
+        }
+      ],
+      "clauses": [
+        {
+          "clause_id": "F_C1_CUSTOMER_WHITELIST",
+          "summary": "Retain a master-row occurrence only when its customer identifier is admitted by the customer rule table.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "PARTIAL",
+          "oracle_ids": ["F_O1_COMPOSITE_ROWS"],
+          "human_review_status": "UNREVIEWED"
+        },
+        {
+          "clause_id": "F_C2_CATEGORY_ALLOWLIST",
+          "summary": "Retain a master-row occurrence only when its product category is admitted by the category rule table.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "PARTIAL",
+          "oracle_ids": ["F_O1_COMPOSITE_ROWS"],
+          "human_review_status": "UNREVIEWED"
+        },
+        {
+          "clause_id": "F_C3_CHANNEL_THRESHOLD",
+          "summary": "For the row's channel, retain it only when its transaction amount meets that channel's minimum threshold, including equality.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "PARTIAL",
+          "oracle_ids": ["F_O1_COMPOSITE_ROWS"],
+          "human_review_status": "UNREVIEWED"
+        },
+        {
+          "clause_id": "F_C4_ALL_PREDICATES",
+          "summary": "Apply the three row predicates conjunctively rather than as alternatives.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "PARTIAL",
+          "oracle_ids": ["F_O1_COMPOSITE_ROWS"],
+          "human_review_status": "UNREVIEWED"
+        },
+        {
+          "clause_id": "F_C5_MASTER_SCHEMA",
+          "summary": "Return exactly the master table's columns in their original order.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "FULL",
+          "oracle_ids": ["F_O2_SCHEMA"],
+          "human_review_status": "UNREVIEWED"
+        },
+        {
+          "clause_id": "F_C6_RETAINED_VALUES",
+          "summary": "Treat filtering as row removal only and preserve every field value of each retained master-row occurrence.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "PARTIAL",
+          "oracle_ids": ["F_O1_COMPOSITE_ROWS"],
+          "human_review_status": "UNREVIEWED"
+        }
+      ],
+      "oracle_input_roles": [
+        "F_MASTER_ROWS",
+        "F_CUSTOMER_RULES",
+        "F_CATEGORY_RULES",
+        "F_CHANNEL_RULES",
+        "F_MASTER_SCHEMA",
+        "F_CANDIDATE_ROWS",
+        "F_CANDIDATE_SCHEMA"
+      ],
+      "oracles": [
+        {
+          "oracle_id": "F_O1_COMPOSITE_ROWS",
+          "kind": "property_oracle",
+          "input_role_ids": ["F_MASTER_ROWS", "F_CUSTOMER_RULES", "F_CATEGORY_RULES", "F_CHANNEL_RULES", "F_CANDIDATE_ROWS"],
+          "property": "Recompute each predicate independently and require exact equality of the retained stable row multiset to their conjunction.",
+          "witness": "one stable row identity plus the predicate truth vector and the responsible rule key",
+          "uses_expected_output": false,
+          "uses_native_evaluator": false,
+          "approval_status": "UNREVIEWED"
+        },
+        {
+          "oracle_id": "F_O2_SCHEMA",
+          "kind": "property_oracle",
+          "input_role_ids": ["F_MASTER_SCHEMA", "F_CANDIDATE_SCHEMA"],
+          "property": "Require identical column names, cardinality, and order.",
+          "witness": "first schema position that differs, or an exact schema digest match",
+          "uses_expected_output": false,
+          "uses_native_evaluator": false,
+          "approval_status": "UNREVIEWED"
+        }
+      ],
+      "checkpoints": [
+        {
+          "checkpoint_id": "F_K1_RULE_LOOKUPS",
+          "after_step": "F_S1_RULE_LOOKUPS",
+          "semantic_boundary_rationale": "Lookup construction fixes how each auxiliary rule will affect later row decisions.",
+          "compact_observations": ["key_count_by_rule", "duplicate_key_flag", "missing_master_key_count"],
+          "oracle_ids": ["F_O1_COMPOSITE_ROWS"],
+          "approval_status": "UNREVIEWED"
+        },
+        {
+          "checkpoint_id": "F_K2_PREDICATE_VECTOR",
+          "after_step": "F_S2_ROW_PREDICATES",
+          "semantic_boundary_rationale": "The three independently revisable obligations first become observable per row here.",
+          "compact_observations": ["pass_count_by_predicate", "conjunction_pass_count", "threshold_equality_case_count"],
+          "oracle_ids": ["F_O1_COMPOSITE_ROWS"],
+          "approval_status": "UNREVIEWED"
+        },
+        {
+          "checkpoint_id": "F_K3_OUTPUT_COMMIT",
+          "after_step": "F_S4_SCHEMA_COMMIT",
+          "semantic_boundary_rationale": "Row membership and schema obligations are both committed.",
+          "compact_observations": ["row_multiset_digest", "column_order_digest", "output_row_count"],
+          "oracle_ids": ["F_O1_COMPOSITE_ROWS", "F_O2_SCHEMA"],
+          "approval_status": "UNREVIEWED"
+        }
+      ],
+      "mutation_proposal": {
+        "name": "stale_channel_threshold_revision",
+        "grammar": "stale revised constraint",
+        "status": "CODEX_PROPOSED",
+        "single_semantic_variable": "the active minimum amount for one channel after an authored revision",
+        "persistent_case": "continue using that channel's superseded threshold through final commit",
+        "recovered_case": "temporarily use the superseded threshold, then apply the active threshold before final commit",
+        "human_approval": "UNREVIEWED"
+      },
+      "ambiguities": [
+        "The revision turn and its natural wording are newly authored, not upstream source facts.",
+        "Duplicate rule keys and missing channel thresholds have no stated resolution policy.",
+        "Stable row identity for duplicate master rows must be frozen before witness labeling.",
+        "Retained-value and row-order preservation are natural filtering semantics but require explicit human confirmation."
+      ]
+    },
+    {
+      "task_key": "NL2Op/T0074_wide_table_construction",
+      "family": "aggregation_grain",
+      "intended_role": "time-windowed aggregation at user grain",
+      "qualification": "PROVISIONAL",
+      "design_status": "CODEX_PROPOSED",
+      "human_requirement_review": "UNREVIEWED",
+      "source_task_path": "data/benchmarks/NL2Op/T0074_wide_table_construction",
+      "source_locator": "task_meta.json:1",
+      "native_evaluator_evidence": [
+        "eval.py:56-59 requires all reference columns but permits extras",
+        "eval.py:61-64 compares the row multiset on reference columns",
+        "eval.py:65-70 can disclose reference-row examples through diagnostics"
+      ],
+      "known_native_evaluator_gaps": [
+        "Window, grain, aggregate, join, and zero-fill clauses are not localized independently.",
+        "Extra output columns are accepted.",
+        "Reference-row diagnostics cannot enter a reference-hidden evaluator view."
+      ],
+      "steps": [
+        {
+          "step_id": "A_S1_WINDOW_FILTER",
+          "action_summary": "Apply the left-open, right-closed 30-day window independently to order and click events."
+        },
+        {
+          "step_id": "A_S2_USER_AGGREGATES",
+          "action_summary": "Compute order count, order amount sum, and click count at user grain."
+        },
+        {
+          "step_id": "A_S3_USER_LEFT_JOIN",
+          "action_summary": "Left join the aggregates to the user dimension and exclude orphan behavior keys."
+        },
+        {
+          "step_id": "A_S4_ZERO_FILL_COMMIT",
+          "action_summary": "Fill missing behavior measures with string-form zero and commit the required feature columns."
+        }
+      ],
+      "clauses": [
+        {
+          "clause_id": "A_C1_WINDOW",
+          "summary": "Include behavior timestamps strictly after the 30-day lower boundary and at or before the fixed reference date.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "PARTIAL",
+          "oracle_ids": ["A_O1_WINDOW"],
+          "human_review_status": "UNREVIEWED"
+        },
+        {
+          "clause_id": "A_C2_USER_GRAIN",
+          "summary": "Produce one feature-row occurrence for every source user and no behavior-only user.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "PARTIAL",
+          "oracle_ids": ["A_O2_USER_GRAIN"],
+          "human_review_status": "UNREVIEWED"
+        },
+        {
+          "clause_id": "A_C3_ORDER_COUNT",
+          "summary": "Count each in-window order for its user.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "PARTIAL",
+          "oracle_ids": ["A_O3_AGGREGATES"],
+          "human_review_status": "UNREVIEWED"
+        },
+        {
+          "clause_id": "A_C4_ORDER_GMV",
+          "summary": "Sum the amount of each in-window order for its user.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "PARTIAL",
+          "oracle_ids": ["A_O3_AGGREGATES"],
+          "human_review_status": "UNREVIEWED"
+        },
+        {
+          "clause_id": "A_C5_CLICK_COUNT",
+          "summary": "Count each in-window click for its user.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "PARTIAL",
+          "oracle_ids": ["A_O3_AGGREGATES"],
+          "human_review_status": "UNREVIEWED"
+        },
+        {
+          "clause_id": "A_C6_LEFT_JOIN",
+          "summary": "Use the user dimension as the preserved side of the join.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "PARTIAL",
+          "oracle_ids": ["A_O2_USER_GRAIN"],
+          "human_review_status": "UNREVIEWED"
+        },
+        {
+          "clause_id": "A_C7_ZERO_FILL",
+          "summary": "Represent absent order or click behavior with zero rather than a missing value.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "PARTIAL",
+          "oracle_ids": ["A_O4_SCHEMA_AND_FILL"],
+          "human_review_status": "UNREVIEWED"
+        },
+        {
+          "clause_id": "A_C8_STRING_REPRESENTATION",
+          "summary": "Serialize the three aggregate features as strings.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "PARTIAL",
+          "oracle_ids": ["A_O4_SCHEMA_AND_FILL"],
+          "human_review_status": "UNREVIEWED"
+        }
+      ],
+      "oracle_input_roles": [
+        "A_ORDER_EVENTS",
+        "A_CLICK_EVENTS",
+        "A_USER_IDS",
+        "A_REFERENCE_DATE",
+        "A_WINDOW_WIDTH",
+        "A_CANDIDATE_USER_IDS",
+        "A_CANDIDATE_AGGREGATES",
+        "A_REQUIRED_FEATURE_NAMES",
+        "A_CANDIDATE_SCHEMA"
+      ],
+      "oracles": [
+        {
+          "oracle_id": "A_O1_WINDOW",
+          "kind": "property_oracle",
+          "input_role_ids": ["A_ORDER_EVENTS", "A_CLICK_EVENTS", "A_REFERENCE_DATE", "A_WINDOW_WIDTH"],
+          "property": "Classify each behavior event with explicit left-open and right-closed boundary comparisons.",
+          "witness": "one event identity, its boundary relation, and its inclusion decision",
+          "uses_expected_output": false,
+          "uses_native_evaluator": false,
+          "approval_status": "UNREVIEWED"
+        },
+        {
+          "oracle_id": "A_O2_USER_GRAIN",
+          "kind": "property_oracle",
+          "input_role_ids": ["A_USER_IDS", "A_ORDER_EVENTS", "A_CLICK_EVENTS", "A_CANDIDATE_USER_IDS"],
+          "property": "Require the output user multiset to equal the user dimension multiset and reject behavior-only identifiers.",
+          "witness": "a missing, duplicated, or behavior-only user identity",
+          "uses_expected_output": false,
+          "uses_native_evaluator": false,
+          "approval_status": "UNREVIEWED"
+        },
+        {
+          "oracle_id": "A_O3_AGGREGATES",
+          "kind": "property_oracle",
+          "input_role_ids": ["A_ORDER_EVENTS", "A_CLICK_EVENTS", "A_REFERENCE_DATE", "A_WINDOW_WIDTH", "A_CANDIDATE_AGGREGATES"],
+          "property": "Recompute the three per-user aggregates independently and compare each required field.",
+          "witness": "one user identity, aggregate name, recomputed value, and candidate value",
+          "uses_expected_output": false,
+          "uses_native_evaluator": false,
+          "approval_status": "UNREVIEWED"
+        },
+        {
+          "oracle_id": "A_O4_SCHEMA_AND_FILL",
+          "kind": "property_oracle",
+          "input_role_ids": ["A_REQUIRED_FEATURE_NAMES", "A_CANDIDATE_SCHEMA", "A_USER_IDS", "A_ORDER_EVENTS", "A_CLICK_EVENTS", "A_CANDIDATE_AGGREGATES"],
+          "property": "Require the required feature names and string-form zero for each absent behavior measure; extra-column policy remains human-gated.",
+          "witness": "first missing feature, disallowed extra feature, non-string aggregate, or incorrect missing-behavior value",
+          "uses_expected_output": false,
+          "uses_native_evaluator": false,
+          "approval_status": "UNREVIEWED"
+        }
+      ],
+      "checkpoints": [
+        {
+          "checkpoint_id": "A_K1_WINDOWED_EVENTS",
+          "after_step": "A_S1_WINDOW_FILTER",
+          "semantic_boundary_rationale": "Window membership becomes fixed before any aggregation can hide boundary errors.",
+          "compact_observations": ["included_count_by_event_type", "lower_boundary_count", "upper_boundary_count", "outside_window_count"],
+          "oracle_ids": ["A_O1_WINDOW"],
+          "approval_status": "UNREVIEWED"
+        },
+        {
+          "checkpoint_id": "A_K2_USER_AGGREGATES",
+          "after_step": "A_S2_USER_AGGREGATES",
+          "semantic_boundary_rationale": "The required grain and the three aggregate obligations first become observable together.",
+          "compact_observations": ["aggregate_key_count", "duplicate_user_key_count", "aggregate_field_digest"],
+          "oracle_ids": ["A_O2_USER_GRAIN", "A_O3_AGGREGATES"],
+          "approval_status": "UNREVIEWED"
+        },
+        {
+          "checkpoint_id": "A_K3_JOINED_FEATURES",
+          "after_step": "A_S4_ZERO_FILL_COMMIT",
+          "semantic_boundary_rationale": "User preservation, zero fill, representation, and feature schema are committed.",
+          "compact_observations": ["output_user_count", "orphan_user_count", "zero_fill_count_by_feature", "schema_digest"],
+          "oracle_ids": ["A_O2_USER_GRAIN", "A_O4_SCHEMA_AND_FILL"],
+          "approval_status": "UNREVIEWED"
+        }
+      ],
+      "mutation_proposal": {
+        "name": "orders_count_basis_substitution",
+        "grammar": "aggregation-key/grain substitution",
+        "status": "CODEX_PROPOSED",
+        "single_semantic_variable": "orders_cnt counts distinct eligible calendar dates instead of eligible order rows",
+        "persistent_case": "retain the distinct-date count through final commit while all other aggregates and joins stay fixed",
+        "recovered_case": "first compute the distinct-date count, then replace only orders_cnt with the eligible row count before final commit",
+        "human_approval": "UNREVIEWED"
+      },
+      "ambiguities": [
+        "The task does not explicitly decide whether extra output columns are forbidden.",
+        "Duplicate user identifiers in the dimension table have no stated multiplicity policy.",
+        "Timestamp parse failure and numeric amount coercion policies are unstated."
+      ]
+    },
+    {
+      "task_key": "NL2Op/T0011_incremental_deduplication",
+      "family": "latest_record",
+      "intended_role": "last-write-wins merge with order and representation obligations",
+      "qualification": "PROVISIONAL",
+      "design_status": "CODEX_PROPOSED",
+      "human_requirement_review": "UNREVIEWED",
+      "source_task_path": "data/benchmarks/NL2Op/T0011_incremental_deduplication",
+      "source_locator": "task_meta.json:1",
+      "native_evaluator_evidence": [
+        "eval.py:51-59 strips CSV field boundaries before comparison",
+        "eval.py:84-104 penalizes duplicate, extra, or wrong full rows",
+        "eval.py:106-111 accounts for missing identifiers",
+        "eval.py:64-70 accepts either JSONL or CSV output"
+      ],
+      "known_native_evaluator_gaps": [
+        "Ascending output order is not checked.",
+        "CSV whitespace stripping weakens exact field preservation.",
+        "The evaluator compares to a reference rather than independently recomputing lexicographic winners."
+      ],
+      "steps": [
+        {
+          "step_id": "D_S1_UNIFIED_POOL",
+          "action_summary": "Load both sources by field name without changing field strings and form one record pool."
+        },
+        {
+          "step_id": "D_S2_LATEST_WINNER",
+          "action_summary": "Select the lexicographically greatest timestamp record for each identifier and surface equal-maximum conflicts."
+        },
+        {
+          "step_id": "D_S3_ID_ORDER",
+          "action_summary": "Sort the unique winning records by the approved identifier ordering rule."
+        },
+        {
+          "step_id": "D_S4_JSONL_COMMIT",
+          "action_summary": "Serialize one complete winning record per line without changing stored field values."
+        }
+      ],
+      "clauses": [
+        {
+          "clause_id": "D_C1_UNIFIED_POOL",
+          "summary": "Treat historical and incremental records as one candidate pool.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "PARTIAL",
+          "oracle_ids": ["D_O1_LATEST_RECORD"],
+          "human_review_status": "UNREVIEWED"
+        },
+        {
+          "clause_id": "D_C2_PRIMARY_KEY",
+          "summary": "Emit exactly one winning record for each identifier present in the combined pool.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "FULL",
+          "oracle_ids": ["D_O2_ID_COVERAGE"],
+          "human_review_status": "UNREVIEWED"
+        },
+        {
+          "clause_id": "D_C3_LEXICOGRAPHIC_LATEST",
+          "summary": "Choose the record whose ISO-form timestamp string is lexicographically greatest within its identifier group.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "PARTIAL",
+          "oracle_ids": ["D_O1_LATEST_RECORD"],
+          "human_review_status": "UNREVIEWED"
+        },
+        {
+          "clause_id": "D_C4_FIELD_PRESERVATION",
+          "summary": "Carry every field from the selected record without value normalization.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "PARTIAL",
+          "oracle_ids": ["D_O3_FIELD_PRESERVATION"],
+          "human_review_status": "UNREVIEWED"
+        },
+        {
+          "clause_id": "D_C5_TIMESTAMP_FORMAT",
+          "summary": "Preserve the selected timestamp's original string representation.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "PARTIAL",
+          "oracle_ids": ["D_O3_FIELD_PRESERVATION"],
+          "human_review_status": "UNREVIEWED"
+        },
+        {
+          "clause_id": "D_C6_ASCENDING_ID",
+          "summary": "Order output records by identifier in the approved ascending interpretation.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "NONE",
+          "oracle_ids": ["D_O4_ORDER_AND_FORMAT"],
+          "human_review_status": "UNREVIEWED"
+        },
+        {
+          "clause_id": "D_C7_JSONL_OUTPUT",
+          "summary": "Commit the deduplicated records as JSON Lines rather than an alternative accepted evaluator format.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "NONE",
+          "oracle_ids": ["D_O4_ORDER_AND_FORMAT"],
+          "human_review_status": "UNREVIEWED"
+        }
+      ],
+      "oracle_input_roles": [
+        "D_HISTORICAL_RECORDS",
+        "D_INCREMENTAL_RECORDS",
+        "D_CANDIDATE_RECORDS",
+        "D_CANDIDATE_ORDER",
+        "D_CANDIDATE_SERIALIZATION",
+        "D_APPROVED_ID_ORDER_POLICY"
+      ],
+      "oracles": [
+        {
+          "oracle_id": "D_O1_LATEST_RECORD",
+          "kind": "property_oracle",
+          "input_role_ids": ["D_HISTORICAL_RECORDS", "D_INCREMENTAL_RECORDS", "D_CANDIDATE_RECORDS"],
+          "property": "Group the unchanged records by identifier and select the unique lexicographic maximum timestamp; abstain on divergent records tied at the maximum until a policy is approved.",
+          "witness": "one identifier plus the candidate timestamps, selected timestamp, and tie flag",
+          "uses_expected_output": false,
+          "uses_native_evaluator": false,
+          "approval_status": "UNREVIEWED"
+        },
+        {
+          "oracle_id": "D_O2_ID_COVERAGE",
+          "kind": "property_oracle",
+          "input_role_ids": ["D_HISTORICAL_RECORDS", "D_INCREMENTAL_RECORDS", "D_CANDIDATE_RECORDS"],
+          "property": "Require exactly one output occurrence for every combined-pool identifier and no others.",
+          "witness": "one missing, duplicated, or extra identifier",
+          "uses_expected_output": false,
+          "uses_native_evaluator": false,
+          "approval_status": "UNREVIEWED"
+        },
+        {
+          "oracle_id": "D_O3_FIELD_PRESERVATION",
+          "kind": "property_oracle",
+          "input_role_ids": ["D_HISTORICAL_RECORDS", "D_INCREMENTAL_RECORDS", "D_CANDIDATE_RECORDS"],
+          "property": "Compare every field name and value of each candidate winner to the selected source occurrence without trimming or timestamp reformatting.",
+          "witness": "one identifier, field name, source representation, and candidate representation",
+          "uses_expected_output": false,
+          "uses_native_evaluator": false,
+          "approval_status": "UNREVIEWED"
+        },
+        {
+          "oracle_id": "D_O4_ORDER_AND_FORMAT",
+          "kind": "property_oracle",
+          "input_role_ids": ["D_CANDIDATE_ORDER", "D_CANDIDATE_SERIALIZATION", "D_APPROVED_ID_ORDER_POLICY"],
+          "property": "Require monotone ascending identifiers and one valid JSON object per nonblank line.",
+          "witness": "the first inverted identifier pair or first invalid output line",
+          "uses_expected_output": false,
+          "uses_native_evaluator": false,
+          "approval_status": "UNREVIEWED"
+        }
+      ],
+      "checkpoints": [
+        {
+          "checkpoint_id": "D_K1_RECORD_POOL",
+          "after_step": "D_S1_UNIFIED_POOL",
+          "semantic_boundary_rationale": "Source inclusion and field preservation are fixed before winner selection.",
+          "compact_observations": ["record_count_by_source", "identifier_count", "schema_digest_by_source"],
+          "oracle_ids": ["D_O2_ID_COVERAGE", "D_O3_FIELD_PRESERVATION"],
+          "approval_status": "UNREVIEWED"
+        },
+        {
+          "checkpoint_id": "D_K2_WINNERS",
+          "after_step": "D_S2_LATEST_WINNER",
+          "semantic_boundary_rationale": "The last-write-wins decision becomes observable before output order can mask it.",
+          "compact_observations": ["winner_count", "duplicate_winner_count", "equal_max_conflict_count", "winner_mapping_digest"],
+          "oracle_ids": ["D_O1_LATEST_RECORD", "D_O2_ID_COVERAGE"],
+          "approval_status": "UNREVIEWED"
+        },
+        {
+          "checkpoint_id": "D_K3_OUTPUT_COMMIT",
+          "after_step": "D_S4_JSONL_COMMIT",
+          "semantic_boundary_rationale": "Winner identity, field representation, order, and output format are committed.",
+          "compact_observations": ["output_record_count", "field_digest", "identifier_order_violation_count", "invalid_line_count"],
+          "oracle_ids": ["D_O2_ID_COVERAGE", "D_O3_FIELD_PRESERVATION", "D_O4_ORDER_AND_FORMAT"],
+          "approval_status": "UNREVIEWED"
+        }
+      ],
+      "mutation_proposal": {
+        "name": "physical_last_instead_of_latest",
+        "grammar": "latest-record order reversal",
+        "status": "CODEX_PROPOSED",
+        "single_semantic_variable": "select the physically last encountered record instead of the lexicographic maximum timestamp record",
+        "persistent_case": "retain the physical-last winner through final commit while parsing, grouping, copying, sorting, and serialization stay fixed",
+        "recovered_case": "first select the physical-last record, then replace only the winner map with lexicographic-maximum selections before final commit",
+        "human_approval": "UNREVIEWED"
+      },
+      "ambiguities": [
+        "Divergent records tied at the maximum timestamp have no stated winner policy.",
+        "Ascending identifier order may be lexical or numeric-like and must be frozen.",
+        "The task requires JSONL while the native evaluator also accepts CSV."
+      ]
+    },
+    {
+      "task_key": "NL2Op/T0047_multi_csv_union",
+      "family": "output_preservation",
+      "intended_role": "ordered, duplicate-preserving homogeneous union; not an input-side-effect task",
+      "qualification": "HOLD",
+      "design_status": "CODEX_PROPOSED",
+      "human_requirement_review": "UNREVIEWED",
+      "source_task_path": "data/benchmarks/NL2Op/T0047_multi_csv_union",
+      "source_locator": "task_meta.json:1",
+      "native_evaluator_evidence": [
+        "eval.py:43-54 parses all rows without stripping field values",
+        "eval.py:65-72 requires an existing CSV path",
+        "eval.py:75-82 requires strict parsed row and column equality",
+        "gen_data.py:20-22 names inputs differently from the packaged raw files"
+      ],
+      "known_native_evaluator_gaps": [
+        "The evaluator sees only the final output and cannot detect input overwrites or extra filesystem side effects.",
+        "The upstream requirement does not state that source files must remain unchanged.",
+        "Packaged inputs and the generator disagree on filenames and blank-row behavior."
+      ],
+      "steps": [
+        {
+          "step_id": "U_S1_ORDERED_INPUTS",
+          "action_summary": "Resolve an explicit input-file order and the first usable header."
+        },
+        {
+          "step_id": "U_S2_ROW_STREAMS",
+          "action_summary": "Read each file's row sequence, retaining duplicates and literal field values while marking empty segments."
+        },
+        {
+          "step_id": "U_S3_ORDERED_CONCAT",
+          "action_summary": "Concatenate nonempty row streams in file order and retain within-file order."
+        },
+        {
+          "step_id": "U_S4_CSV_COMMIT",
+          "action_summary": "Write one standard header followed by the concatenated row sequence."
+        }
+      ],
+      "clauses": [
+        {
+          "clause_id": "U_C1_FIRST_HEADER",
+          "summary": "Use the first input file's column order as the output column order.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "PARTIAL",
+          "oracle_ids": ["U_O1_HEADER"],
+          "human_review_status": "UNREVIEWED"
+        },
+        {
+          "clause_id": "U_C2_FILE_ORDER",
+          "summary": "Append each contributing file's rows in the approved input-file order.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "PARTIAL",
+          "oracle_ids": ["U_O2_ROW_SEQUENCE"],
+          "human_review_status": "UNREVIEWED"
+        },
+        {
+          "clause_id": "U_C3_WITHIN_FILE_ORDER",
+          "summary": "Keep every file's original row sequence.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "FULL",
+          "oracle_ids": ["U_O2_ROW_SEQUENCE"],
+          "human_review_status": "UNREVIEWED"
+        },
+        {
+          "clause_id": "U_C4_DUPLICATE_RETENTION",
+          "summary": "Retain duplicate row occurrences rather than deduplicating them.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "FULL",
+          "oracle_ids": ["U_O2_ROW_SEQUENCE"],
+          "human_review_status": "UNREVIEWED"
+        },
+        {
+          "clause_id": "U_C5_FIELD_PRESERVATION",
+          "summary": "Keep every parsed field value unchanged, including a literal NA token.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "FULL",
+          "oracle_ids": ["U_O3_FIELD_VALUES"],
+          "human_review_status": "UNREVIEWED"
+        },
+        {
+          "clause_id": "U_C6_EMPTY_SEGMENTS",
+          "summary": "Contribute no data rows from an entirely empty or header-only segment.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "PARTIAL",
+          "oracle_ids": ["U_O4_EMPTY_SEGMENTS"],
+          "human_review_status": "UNREVIEWED"
+        },
+        {
+          "clause_id": "U_C7_CSV_OUTPUT",
+          "summary": "Produce a CSV containing one header and the merged rows.",
+          "source_locator": "task_meta.json:1",
+          "native_evaluator_coverage": "FULL",
+          "oracle_ids": ["U_O1_HEADER", "U_O2_ROW_SEQUENCE"],
+          "human_review_status": "UNREVIEWED"
+        }
+      ],
+      "oracle_input_roles": [
+        "U_ORDERED_INPUT_SCHEMAS",
+        "U_CANDIDATE_SCHEMA",
+        "U_ORDERED_INPUT_ROWS",
+        "U_CANDIDATE_ROWS",
+        "U_ORDERED_INPUT_FIELDS",
+        "U_CANDIDATE_FIELDS",
+        "U_INPUT_SEGMENT_CLASSES"
+      ],
+      "oracles": [
+        {
+          "oracle_id": "U_O1_HEADER",
+          "kind": "property_oracle",
+          "input_role_ids": ["U_ORDERED_INPUT_SCHEMAS", "U_CANDIDATE_SCHEMA"],
+          "property": "Require one output header matching the first approved input header in name and order.",
+          "witness": "the first differing header position or a duplicate-header row",
+          "uses_expected_output": false,
+          "uses_native_evaluator": false,
+          "approval_status": "UNREVIEWED"
+        },
+        {
+          "oracle_id": "U_O2_ROW_SEQUENCE",
+          "kind": "property_oracle",
+          "input_role_ids": ["U_ORDERED_INPUT_ROWS", "U_CANDIDATE_ROWS"],
+          "property": "Construct the expected sequence directly by concatenating each nonempty input row stream and require exact sequence equality with duplicate multiplicity.",
+          "witness": "the first output position with a missing, extra, reordered, or deduplicated row occurrence",
+          "uses_expected_output": false,
+          "uses_native_evaluator": false,
+          "approval_status": "UNREVIEWED"
+        },
+        {
+          "oracle_id": "U_O3_FIELD_VALUES",
+          "kind": "property_oracle",
+          "input_role_ids": ["U_ORDERED_INPUT_FIELDS", "U_CANDIDATE_FIELDS"],
+          "property": "Compare parsed field strings positionally without trimming, type coercion, or missing-value conversion.",
+          "witness": "one file index, row position, column position, source field representation, and candidate field representation",
+          "uses_expected_output": false,
+          "uses_native_evaluator": false,
+          "approval_status": "UNREVIEWED"
+        },
+        {
+          "oracle_id": "U_O4_EMPTY_SEGMENTS",
+          "kind": "property_oracle",
+          "input_role_ids": ["U_INPUT_SEGMENT_CLASSES", "U_CANDIDATE_ROWS"],
+          "property": "Require empty and header-only segments to contribute no data rows while preserving the approved standard header.",
+          "witness": "one segment classification and its contributed row count",
+          "uses_expected_output": false,
+          "uses_native_evaluator": false,
+          "approval_status": "UNREVIEWED"
+        }
+      ],
+      "checkpoints": [
+        {
+          "checkpoint_id": "U_K1_INPUT_INVENTORY",
+          "after_step": "U_S1_ORDERED_INPUTS",
+          "semantic_boundary_rationale": "File order and the standard header determine all later sequence judgments.",
+          "compact_observations": ["ordered_input_count", "schema_digest_by_input", "empty_segment_count"],
+          "oracle_ids": ["U_O1_HEADER", "U_O4_EMPTY_SEGMENTS"],
+          "approval_status": "UNREVIEWED"
+        },
+        {
+          "checkpoint_id": "U_K2_ROW_STREAMS",
+          "after_step": "U_S2_ROW_STREAMS",
+          "semantic_boundary_rationale": "Per-file order, duplicate multiplicity, and literal field representations are observable before concatenation.",
+          "compact_observations": ["row_count_by_input", "duplicate_occurrence_count_by_input", "row_stream_digest_by_input"],
+          "oracle_ids": ["U_O2_ROW_SEQUENCE", "U_O3_FIELD_VALUES"],
+          "approval_status": "UNREVIEWED"
+        },
+        {
+          "checkpoint_id": "U_K3_OUTPUT_COMMIT",
+          "after_step": "U_S4_CSV_COMMIT",
+          "semantic_boundary_rationale": "Header, row sequence, duplicate, and field-preservation obligations are committed.",
+          "compact_observations": ["output_row_count", "output_stream_digest", "header_digest"],
+          "oracle_ids": ["U_O1_HEADER", "U_O2_ROW_SEQUENCE", "U_O3_FIELD_VALUES"],
+          "approval_status": "UNREVIEWED"
+        }
+      ],
+      "mutation_proposal": {
+        "name": "unintended_output_deduplication",
+        "grammar": "OUTSIDE_FROZEN_GRAMMAR",
+        "status": "BLOCKED",
+        "single_semantic_variable": "remove repeated row occurrences during union",
+        "persistent_case": "deduplicated row stream remains through final commit",
+        "recovered_case": "deduplicate transiently, then restore the original occurrence sequence before final commit",
+        "human_approval": "UNREVIEWED"
+      },
+      "non_task_control": {
+        "name": "input_snapshot_guard",
+        "status": "EXPERIMENT_SAFETY_CONTROL_ONLY",
+        "reason": "Input immutability is not an upstream task clause and cannot be labeled as this task's semantic gold."
+      },
+      "ambiguities": [
+        "Input-file order is not represented by an explicit upstream manifest.",
+        "The first-file rule is undefined when the first segment is entirely empty and has no header.",
+        "A packaged zero-field blank record would be preserved by row-stream semantics but is absent from the packaged reference; treating it as an empty segment changes the contract.",
+        "The task supports output preservation, not the planned input-overwrite side-effect family."
+      ]
+    }
+  ]
+}

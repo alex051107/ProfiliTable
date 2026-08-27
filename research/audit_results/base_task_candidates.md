@@ -27,7 +27,7 @@ Final eligibility still requires a human reviewer to approve:
 | Filter / revision | `NL2Op/T0114_filter_muti` | Three independently revisable predicates over four input tables plus an explicit master-schema preservation clause | Exact column comparison, then row accuracy only over the shorter GT/prediction prefix | retain for human clause review; not pilot-approved |
 | Aggregation grain | `NL2Op/T0074_wide_table_construction` | Explicit per-user grain, 30-day window, three aggregates, and a left join | Exact multiset over GT columns; ignores row order and allows extra columns | strongest current aggregation candidate; not pilot-approved |
 | Dedup / latest record | `NL2Op/T0011_incremental_deduplication` | Two-source incremental merge with key, latest timestamp, winning-row preservation, and output-order requirement | Penalizes duplicate/extra/missing IDs and wrong full rows; does not enforce ascending output order | retain with independent timestamp/tie oracle; not pilot-approved |
-| Input preservation / side effects | `NL2Op/T0047_multi_csv_union` | Requires row/file order, duplicates, field values, and schema to remain intact through union | Strict parsed row-and-column equality of final output only | conditional on resolving package drift and adding a separate side-effect oracle |
+| Output preservation; side-effect role unresolved | `NL2Op/T0047_multi_csv_union` | Requires file/row order, duplicates, field values, and schema to remain intact in the union output | Strict parsed row-and-column equality of final output only | hold for package-drift resolution; the source task does not state input immutability |
 
 The source tasks are static. Any evolving requirement or revision sequence would be a later reviewed benchmark design, not an observed upstream feature.
 
@@ -53,7 +53,7 @@ Independent-oracle design proposal:
 - require their conjunction per master-table row;
 - compare the exact retained-row multiset and exact master schema;
 - reject both missing and extra rows;
-- separately verify that all four inputs remain unchanged.
+- use input-identity comparison only as an experiment-safety control unless a human adds and approves an explicit input-immutability contract atom.
 
 Human gate: define a natural revision sequence and boundary cases for whitelist/category/threshold changes. The upstream task itself contains no revisions.
 
@@ -99,15 +99,15 @@ Consequence: the evaluator covers final record identity and content more strongl
 
 Independent-oracle design proposal:
 
-- parse timestamps under a frozen timezone/tie policy;
+- compare the original ISO-form timestamp strings lexicographically and fail closed on divergent equal maxima until a tie policy is approved;
 - choose the latest record per ID directly from both inputs;
 - require exact winning-row values and no duplicate/extra/missing IDs;
 - evaluate ascending output order separately;
 - compare input bytes before/after only in a later isolated pilot.
 
-Human gate: freeze equal-timestamp behavior, timezone interpretation, and whether format preservation is semantic or representational.
+Human gate: freeze equal-timestamp behavior, lexical identifier ordering, and whether format preservation is semantic or representational. The source contract explicitly says not to parse timestamps into datetime objects.
 
-### 3.4 Input preservation / side effects — `NL2Op/T0047_multi_csv_union`
+### 3.4 Output preservation; side-effect role unresolved — `NL2Op/T0047_multi_csv_union`
 
 Observed instruction:
 
@@ -129,10 +129,10 @@ Independent-oracle design proposal:
 
 - first resolve whether the blank record is an intended row and refreeze the package contract;
 - compare the exact parsed concatenation with explicit blank-row policy;
-- run later code against copied read-only inputs;
-- separately compare before/after input identities and sandbox file inventories.
+- run any later code against copied read-only inputs;
+- compare before/after input identities and sandbox file inventories as experiment-safety controls, not as this source task's semantic oracle.
 
-Human gate: resolve package/generator drift before this task can represent preservation semantics.
+Human gate: resolve package/generator drift and decide whether output preservation is an acceptable fourth family. The upstream task cannot ground an input-overwrite violation unless a new, separately authored immutability requirement is approved.
 
 ## 4. Hard exclusions and holds
 
