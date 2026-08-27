@@ -2,7 +2,7 @@
 
 This repository contains the implementation of **ProfiliTable**
 
-> **Research branch note (2026-08-26):** On `research/benchmark-first-plan-v0.2`, start with [`CODEX_RESEARCH_START_HERE.md`](CODEX_RESEARCH_START_HERE.md) and the current [`Phase 1 Handoff Review`](research/PHASE1_HANDOFF_REVIEW.md). The runtime reproduction instructions below remain the upstream implementation path.
+> **Research branch note (2026-08-27):** On `research/upstream-audit`, start with [`CODEX_RESEARCH_START_HERE.md`](CODEX_RESEARCH_START_HERE.md) and the current [`Phase 2 Handoff Review`](research/PHASE2_HANDOFF_REVIEW.md). The fixed-package audit is complete, but the pilot remains gated by data-rights and human semantic review. The runtime reproduction instructions below remain the upstream implementation path.
 
 ---
 

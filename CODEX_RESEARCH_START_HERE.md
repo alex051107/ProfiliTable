@@ -1,8 +1,8 @@
 # Codex Research Start Here — ProfiliTable / DataFlow-Table
 
-**Status:** Phase 1 research decision complete; Phase 2 audit not started
-**Date:** 2026-08-26  
-**Working branch:** `research/benchmark-first-plan-v0.2`  
+**Status:** Phase 2 mechanical audit complete; Stage-0 pilot gate not passed
+**Date:** 2026-08-27
+**Working branch:** `research/upstream-audit`
 **Upstream baseline:** `Eularioal/ProfiliTable@f023ec4b754555000a659b93fd514645c55e3cec`
 
 ---
@@ -15,7 +15,7 @@ This file gives Codex the complete decision context and requires broad explorati
 
 **Do not assume the current state-grounded diagnosis idea is correct.** Treat it as one candidate among several.
 
-## 0.1 Phase 1 completion update
+## 0.1 Phase 1 decision and Phase 2 completion update
 
 Phase 1 is complete. The current decision is:
 
@@ -24,17 +24,19 @@ Phase 1 is complete. The current decision is:
 - **Not selected as primary:** B — Process-Diagnostic Benchmark;
 - **Deferred:** D — Harness / Self-Monitoring Integration.
 
-This is a research-route decision, not an implementation or novelty claim. The next authorised activity is the bounded Phase 2 ProfiliTable task/evaluator/provenance audit.
+The bounded Phase 2 public-package audit is now complete. It reproduced the 127-task inventory, fixed the package SHA-256, generated an exact-line DRAFT evaluator-coverage queue, found material leakage/evaluator defects, and produced four conditional candidates. This is not pilot approval or a novelty claim.
 
 Read the current handoff package in this order:
 
-1. `research/PHASE1_HANDOFF_REVIEW.md` — current status, review record, known risks, and next gate;
-2. `research/RESEARCH_DECISION_MEMO.md` — primary/fallback decision and GO/PIVOT/STOP rules;
-3. `research/PHASE1_DECISION_RATIONALE.md` — evidence-based decision path and alternatives;
-4. `research/ALTERNATIVE_FORMULATIONS.md` — full A–D comparison;
-5. `research/DIRECT_TRANSFER_BASELINE_PLAN.md` — reference-hidden baseline protocol;
-6. `research/NOVELTY_MATRIX.tsv` — source-by-source claim boundary;
-7. `PROJECT_HANDOFF_2026-08-26.md` — project history and pre-Phase-1 context.
+1. `research/PHASE2_HANDOFF_REVIEW.md` — current status, acceptance record, blockers, and next gate;
+2. `research/PHASE2_AUDIT_RATIONALE.md` — evidence-based audit and decision path;
+3. `research/audit_results/base_task_candidates.md` — conditional shortlist, evaluator boundaries, and exclusions;
+4. `research/audit_results/package_manifest.tsv` — fixed package identity and license boundary;
+5. `research/audit_results/upstream_inventory.tsv` — one row per task bundle;
+6. `research/audit_results/oracle_coverage.DRAFT.tsv` — machine-generated human review queue; requirement text is withheld pending data-license review;
+7. `research/PHASE1_HANDOFF_REVIEW.md` — primary/fallback formulation decision;
+8. `research/RESEARCH_DECISION_MEMO.md` — GO/PIVOT/STOP rules;
+9. `PROJECT_HANDOFF_2026-08-26.md` — project history and pre-Phase-1 context.
 
 ---
 
@@ -77,6 +79,14 @@ Existing documents:
 - `research/RESEARCH_DECISION_MEMO.md`
 - `research/PHASE1_DECISION_RATIONALE.md`
 - `research/PHASE1_HANDOFF_REVIEW.md`
+- `research/PHASE2_AUDIT_RATIONALE.md`
+- `research/PHASE2_HANDOFF_REVIEW.md`
+- `research/audit_results/package_manifest.tsv`
+- `research/audit_results/upstream_inventory.tsv`
+- `research/audit_results/oracle_coverage.DRAFT.tsv`
+- `research/audit_results/base_task_candidates.md`
+- `scripts/audit_upstream_package.py`
+- `tests/test_audit_upstream_package.py`
 - an expanded `.gitignore`
 
 These documents currently establish:
@@ -436,12 +446,14 @@ If its reconstruction contradicts the files, stop and resolve the contradiction 
 
 ## Phase 2 — ProfiliTable audit
 
-Only after Phase 1:
+**Completed mechanically on 2026-08-27:**
 
 - reproduce task inventory and package hash;
 - audit `task_meta.json`, raw data, GT, and `eval.py` coverage;
 - identify candidate real tasks;
 - do not commit raw/derived data.
+
+Scientific completion remains gated by data-rights confirmation, manual clause coverage, independent-oracle approval, and checkpoint-boundary approval.
 
 ## Phase 3 — Empirical gate design
 
@@ -484,9 +496,9 @@ Every proposed direction must include a **kill test**:
 # 12. Repository and branch discipline
 
 - Keep `master` aligned with the upstream replication baseline.
-- Use `research/benchmark-first-plan-v0.2` for the current research plan.
+- Preserve `research/benchmark-first-plan-v0.2` as the Phase 1 decision baseline.
+- Use `research/upstream-audit` for the completed Phase 2 audit.
 - Use short-lived implementation branches only after Phase 3, e.g.:
-  - `research/upstream-audit`
   - `research/pilot-task-selection`
   - `research/baseline-transfer`
   - `research/agent-capability-pilot`
@@ -525,16 +537,16 @@ If the new labels only produce a more detailed narrative but do not change a dec
 
 # 14. Current recommended immediate task
 
-Do **not** expand the state checker or create more mutants yet.
+Do **not** expand the state checker, create mutants, or run models yet.
 
-Phase 1 has selected A as primary and C as fallback. The immediate task is the bounded Phase 2 public-source/local-summary audit:
+Phase 2 has completed the reproducible public-package audit and retained four conditional candidates. The immediate task is a human/mentor gate:
 
-1. identify the exact fixed ProfiliTable task package and record source, retrieval date, licence/terms, and redistribution questions;
-2. enumerate task metadata, raw input, expected output, and `eval.py` presence without committing raw data;
-3. draft clause-to-evaluator coverage with exact code locations;
-4. test independent semantic-oracle and checkpoint feasibility;
-5. recommend four real tasks only if their provenance, evaluator coverage, and checkpoint boundaries are defensible.
+1. confirm data-use and redistribution permission;
+2. review the four candidates' DRAFT clause-to-evaluator mappings;
+3. approve an independent semantic oracle per task;
+4. approve checkpoint boundaries;
+5. record GO/PIVOT/STOP for Stage 0.
 
-Public fixed-source reading and local summaries may proceed now. Internal assets, ownership, redistribution, mutation generation, pilot implementation, model runs, and post-evidence GO/PIVOT/STOP decisions remain gated by human/mentor alignment or a separate explicit instruction.
+The DRAFT coverage table must not be renamed or treated as ground truth before that review. Internal assets, ownership, redistribution, mutation generation, pilot implementation, model runs, and integration changes remain gated.
 
 State becomes the method direction only if a later reference-hidden ablation demonstrates replayable, decision-relevant value over strong text/trajectory baselines.

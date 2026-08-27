@@ -1,0 +1,47 @@
+field	value	evidence	status
+audit_schema_version	1.0	scripts/audit_upstream_package.py	OBSERVED
+audit_timestamp_utc	2026-08-27T11:28:03+00:00	CLI argument or UTC clock	OBSERVED
+upstream_repo	https://github.com/Eularioal/ProfiliTable	fixed audit input	INPUT_PIN
+upstream_commit	f023ec4b754555000a659b93fd514645c55e3cec	fixed audit input	INPUT_PIN
+data_zip_path	data.zip	fixed source worktree	OBSERVED
+data_zip_git_blob_oid	7c1e8be2cffe34386d94f7d5e5849b2ba096b4fd	git ls-tree at fixed commit	OBSERVED_EXTERNAL_TO_SCRIPT
+data_zip_sha256	a5c46f5c0d71a4886ed7c6cebb737814dff0587038f45bed58a40d9d96fafcb6	SHA-256 over fixed archive bytes	OBSERVED
+archive_size_bytes	1851954	filesystem stat	OBSERVED
+archive_entry_count	1033	ZIP central directory	DERIVED
+archive_regular_file_count	648	ZIP central directory	DERIVED
+archive_directory_count	385	ZIP central directory	DERIVED
+archive_uncompressed_bytes	8848386	ZIP central directory	DERIVED
+archive_top_level_prefixes	data	ZIP central directory	DERIVED
+archive_absolute_path_count	0	ZIP path audit	DERIVED
+archive_traversal_path_count	0	ZIP path audit	DERIVED
+archive_duplicate_path_count	0	ZIP path audit	DERIVED
+archive_normalization_collision_count	0	NFC+casefold path audit	DERIVED
+archive_symlink_count	0	ZIP external mode audit	DERIVED
+archive_special_file_count	0	ZIP external mode audit	DERIVED
+archive_encrypted_entry_count	0	ZIP flag audit	DERIVED
+archive_world_writable_entry_count	1033	ZIP external mode audit	DERIVED
+archive_license_like_paths		ZIP filename audit	OBSERVED
+extracted_path_set_match	true	archive/extraction relative paths	DERIVED
+extracted_type_match	true	archive/extraction file types	DERIVED
+extracted_size_match	true	archive/extraction file sizes	DERIVED
+extracted_crc_match	true	CRC-32 of every extracted regular file versus ZIP central directory	DERIVED
+extracted_crc_checked_file_count	648	CRC-32 binding check	DERIVED
+extracted_symlink_count	0	extraction type audit	DERIVED
+extracted_special_file_count	0	extraction type audit	DERIVED
+task_count_total	127	rows in upstream_inventory.tsv	DERIVED
+task_count_by_mode	NL2Dag:37|NL2Op:90	rows in upstream_inventory.tsv	DERIVED
+task_id_unique_scope	split_or_mode+task_directory	duplicate task IDs exist across modes	DERIVED
+task_meta_schema_counts	$:object:127|$.score_rule:string:1|$.target_en:string:127|$.target_zh:string:127|$.task_type:array:13|$.task_type[]:string:13	all parsed task_meta.json	DERIVED
+eval_ast_parse_ok_count	127	static ast.parse only	DERIVED
+eval_execution_count	0	audit contract prohibits evaluator execution	OBSERVED
+execution_trace_static_signal_task_count	0	AST/lexical scan	DERIVED
+intermediate_state_static_signal_task_count	0	AST/lexical scan	DERIVED
+raw_expected_parsed_equivalence_task_count	1	format-aware equality; values not emitted	DERIVED
+software_license_path	LICENSE	fixed source root	OBSERVED
+software_license_first_line	MIT License	LICENSE line 1	OBSERVED
+data_license_status	DATA_INSUFFICIENT	no separate license-like path found inside data.zip	HUMAN_REVIEW_REQUIRED
+redistribution_permission	DATA_INSUFFICIENT	software LICENSE scope is not treated as data permission	HUMAN_REVIEW_REQUIRED
+requirement_text_in_tracked_draft	withheld	oracle_coverage.DRAFT.tsv generation option	OBSERVED
+evaluator_source_snippets_in_tracked_draft	withheld	oracle_coverage.DRAFT.tsv generation option	OBSERVED
+python_version	3.14.0	audit runtime	OBSERVED
+platform	macOS-26.4-arm64-arm-64bit-Mach-O	audit runtime	OBSERVED
